@@ -22,11 +22,16 @@ export const DropDownBrand = () => {
       setBrands(data.data)
     })
   }, [])
+  // eslint-disable-next-line no-undef
+  const uniqueBrands = [...new Set(brands.map((vehicle) => vehicle.brand.toLowerCase()))]
+    .map((brand) => brand.toUpperCase())
+    .sort()
+
   return (
     <Seletion>
       <option id="brand">Selecione uma marca...</option>
-      {brands?.map((vehicles) => {
-        return <option key={vehicles.id}>{vehicles.brand}</option>
+      {uniqueBrands.map((brand) => {
+        return <option key={brand}>{brand}</option>
       })}
     </Seletion>
   )
@@ -38,13 +43,18 @@ export const DropDownColor = () => {
   useEffect(() => {
     fetchVehicle().then((data) => {
       setColors(data.data)
+      console.log(data)
     })
   }, [])
+  // eslint-disable-next-line no-undef
+  const uniqueColors = [...new Set(colors.map((vehicle) => vehicle.color.toLowerCase()))]
+    .map((color) => color.toUpperCase())
+    .sort()
   return (
     <Seletion id="color">
-      <option>Selecione uma cor...</option>
-      {colors?.map((vehicles) => {
-        return <option key={vehicles.id}>{vehicles.color}</option>
+      <option id="color">Selecione uma cor...</option>
+      {uniqueColors.map((colors) => {
+        return <option key={colors}>{colors}</option>
       })}
     </Seletion>
   )
@@ -58,11 +68,20 @@ export const DropDownYear = () => {
       setYears(data.data)
     })
   }, [])
+
+  const uniqueYears = [
+    // eslint-disable-next-line no-undef
+    ...new Set(years.map((vehicle) => vehicle.year))
+  ].sort((a, b) => {
+    if (a < b) return -1
+    if (a > b) return 1
+    return 0
+  })
   return (
     <Seletion id="year">
-      <option>Selecione um ano...</option>
-      {years?.map((vehicles) => {
-        return <option key={vehicles.id}>{vehicles.year}</option>
+      <option id="year">Selecione um ano...</option>
+      {uniqueYears.map((years) => {
+        return <option key={years}>{years}</option>
       })}
     </Seletion>
   )
