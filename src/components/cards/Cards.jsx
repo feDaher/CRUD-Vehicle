@@ -5,7 +5,7 @@ import { MdFavoriteBorder } from 'react-icons/md'
 import axios from 'axios'
 import { useSWRConfig } from 'swr'
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const CardContainer = styled.div`
   background-color: ${(props) => props.color};
@@ -49,9 +49,32 @@ const DivMenu = styled.div`
   margin: 5px 0 0 12px;
 `
 export const HandleFavorite = ({ vehicle }) => {
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  const handleClick = async () => {
+    try {
+      setIsFavorite(!isFavorite)
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/vehicle/vehicleadd`,
+        {
+          data: {
+            id: vehicle.id
+          }
+        }
+      )
+      if (response.status === 200) {
+        console.log('Veículo adicionado aos favoritos com sucesso')
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <CardContainer>
-      <p>{console.log(vehicle)}</p>
+      <button onClick={handleClick}>
+        {isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+      </button>
     </CardContainer>
   )
 }
@@ -106,7 +129,7 @@ function Cards({ vehicle, id }) {
               <TiDeleteOutline onClick={() => handleDelete(id.id)} />
             </DivMenu>
             <DivMenu>
-              <MdFavoriteBorder onClick={() => HandleFavorite({ vehicle })} />
+              <MdFavoriteBorder onClick={() => HandleFavorite()} />
             </DivMenu>
           </DivContainer>
         </ContainerMenu>
