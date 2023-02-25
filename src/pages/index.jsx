@@ -35,7 +35,6 @@ const fetcher = (url) => axios.get(url).then((res) => res.data)
 function HomePage() {
   const [vehicle, setVehicle] = useState('')
   const { data } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/api/vehicle/vehicleadd`, fetcher)
-
   const search = (data) => {
     return data?.filter(
       (item) =>

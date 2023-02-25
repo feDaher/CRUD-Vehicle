@@ -55,7 +55,7 @@ const DivMenu = styled.div`
 
 function Cards({ vehicle, id }) {
   const { mutate } = useSWRConfig()
-  const [isFavorite, setIsFavorite] = useState(vehicle.isFavorite)
+  const [isFavorite, setIsFavorite] = useState(id.isFavorite)
 
   useEffect(() => {}, [id])
 
@@ -95,15 +95,14 @@ function Cards({ vehicle, id }) {
   const addToFavorites = async (id) => {
     try {
       {
-        await axios
-          .patch(`${process.env.NEXT_PUBLIC_API_URL}/api/vehicle/favorite`, {
-            data: {
-              id
-            }
-          })
-          .then((response) => {
-            console.log(response.data)
-          })
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/vehicle/favorite`,
+          {
+            id
+          }
+        )
+        if (response.status === 200)
+          mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/vehicle/favorite`)
       }
     } catch (err) {
       console.error(err)
@@ -125,10 +124,11 @@ function Cards({ vehicle, id }) {
             <DivMenu>
               <MdFavoriteBorder
                 onClick={() => {
-                  handleFavorite()
+                  handleFavorite(id)
                   addToFavorites(id.id)
+                  console.log(id)
                 }}
-                color={isFavorite ? 'red' : 'grey'}
+                color={isFavorite ? 'red' : 'black'}
               />
             </DivMenu>
           </DivContainer>
