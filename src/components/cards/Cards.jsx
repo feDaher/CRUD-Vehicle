@@ -5,6 +5,7 @@ import { MdFavoriteBorder } from 'react-icons/md'
 import axios from 'axios'
 import { useSWRConfig } from 'swr'
 import Link from 'next/link'
+// eslint-disable-next-line no-unused-vars
 import { useEffect, useState } from 'react'
 
 const CardContainer = styled.div`
@@ -32,6 +33,7 @@ const transformColor = (color) => {
     prata: 'silver',
     azul: 'rgb(20, 100, 255)',
     azulmetalico: 'rgb(50, 70, 90)',
+    azulmarinho: '#000080',
     preto: 'rgb(0, 0, 0, 0.80)',
     preta: 'rgb(0, 0, 0, 0.80)',
     amarelo: 'yellow',
@@ -50,33 +52,10 @@ const DivMenu = styled.div`
   cursor: pointer;
   margin: 5px 0 0 12px;
 `
-export const HandleFavorite = ({ vehicle }) => {
-  const [isFavorite, setIsFavorite] = useState()
 
-  const handleClick = async () => {
-    try {
-      setIsFavorite(!isFavorite)
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/vehicle/vehicleadd`,
-        {
-          data: {
-            id: vehicle.id
-          }
-        }
-      )
-      if (response.status === 200) {
-        console.log('Veículo adicionado aos favoritos com sucesso')
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  return <MdFavoriteBorder onClick={() => handleClick()} />
-}
 function Cards({ vehicle, id }) {
   const { mutate } = useSWRConfig()
-  //const [editVehicle, setEditVehicle] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(vehicle.isFavorite)
 
   useEffect(() => {}, [id])
 
@@ -110,7 +89,9 @@ function Cards({ vehicle, id }) {
       console.error(err)
     }
   }
-
+  const handleFavorite = () => {
+    setIsFavorite(!isFavorite)
+  }
   return (
     <>
       <CardContainer color={transformColor(vehicle.color.toLowerCase())}>
@@ -125,7 +106,10 @@ function Cards({ vehicle, id }) {
               <TiDeleteOutline onClick={() => handleDelete(id.id)} />
             </DivMenu>
             <DivMenu>
-              <MdFavoriteBorder onClick={() => HandleFavorite(vehicle)} />
+              <MdFavoriteBorder
+                onClick={handleFavorite}
+                style={{ color: isFavorite ? 'red' : 'black' }}
+              />
             </DivMenu>
           </DivContainer>
         </ContainerMenu>

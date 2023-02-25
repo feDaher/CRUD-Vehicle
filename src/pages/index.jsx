@@ -3,7 +3,7 @@ import Button from '../components/Button'
 import styled from 'styled-components'
 import Link from 'next/link'
 import H1 from '../typograph/H1'
-import Cards, { HandleFavorite } from '../components/cards/Cards'
+import Cards from '../components/cards/Cards'
 import axios from 'axios'
 import { useState } from 'react'
 import useSWR from 'swr'
@@ -62,8 +62,8 @@ function HomePage() {
           <Button>ADICIONAR</Button>
         </Link>
       </PageContainer>
+      <div>Favoritos:</div>
       <StyledDiv />
-      <HandleFavorite />
       <H1 />
       <StyledDiv>
         {search(data)?.map((item) => (
