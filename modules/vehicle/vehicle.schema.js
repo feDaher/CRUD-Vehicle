@@ -42,3 +42,7 @@ export const editVehicleSchema = Joi.object({
   price: Joi.string().required().max(20).message('Esse campo pode ter no máximo 20 caracteres'),
   descrition: Joi.string().required().max(50).message('Esse campo pode ter no máximo 50 caracteres')
 })
+
+export const favoriteVehicleSchema = Joi.object({
+  id: Joi.objectId().required()
+})

@@ -34,3 +34,9 @@ export const editVehicle = async (body) => {
     }
   )
 }
+
+export const favoriteVehicle = async (id) => {
+  return await Vehicle.findOneAndUpdate({
+    _id: id
+  })
+}

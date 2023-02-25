@@ -92,6 +92,23 @@ function Cards({ vehicle, id }) {
   const handleFavorite = () => {
     setIsFavorite(!isFavorite)
   }
+  const addToFavorites = async (id) => {
+    try {
+      {
+        await axios
+          .patch(`${process.env.NEXT_PUBLIC_API_URL}/api/vehicle/favorite`, {
+            data: {
+              id
+            }
+          })
+          .then((response) => {
+            console.log(response.data)
+          })
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
   return (
     <>
       <CardContainer color={transformColor(vehicle.color.toLowerCase())}>
@@ -107,8 +124,11 @@ function Cards({ vehicle, id }) {
             </DivMenu>
             <DivMenu>
               <MdFavoriteBorder
-                onClick={handleFavorite}
-                style={{ color: isFavorite ? 'red' : 'black' }}
+                onClick={() => {
+                  handleFavorite()
+                  addToFavorites(id.id)
+                }}
+                color={isFavorite ? 'red' : 'grey'}
               />
             </DivMenu>
           </DivContainer>
