@@ -22,6 +22,7 @@ const ContainerMenu = styled.div`
   float: right;
 `
 const transformColor = (color) => {
+  const normalizedColor = color.toLowerCase().replace(/[\s-]/g, '')
   const colors = {
     branco: '#ffffff',
     branca: '#ffffff',
@@ -30,6 +31,7 @@ const transformColor = (color) => {
     verde: 'rgb(0, 180, 0)',
     prata: 'silver',
     azul: 'rgb(20, 100, 255)',
+    azulmetalico: 'rgb(50, 70, 90)',
     preto: 'rgb(0, 0, 0, 0.80)',
     preta: 'rgb(0, 0, 0, 0.80)',
     amarelo: 'yellow',
@@ -39,7 +41,7 @@ const transformColor = (color) => {
     roxo: 'purple',
     roxa: 'purple'
   }
-  return colors[color] || 'rgb(190, 190, 190, 0.35)'
+  return colors[normalizedColor] || 'rgb(190, 190, 190, 0.35)'
 }
 const DivContainer = styled.div`
   display: flex;
@@ -49,7 +51,7 @@ const DivMenu = styled.div`
   margin: 5px 0 0 12px;
 `
 export const HandleFavorite = ({ vehicle }) => {
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [isFavorite, setIsFavorite] = useState()
 
   const handleClick = async () => {
     try {
@@ -70,13 +72,7 @@ export const HandleFavorite = ({ vehicle }) => {
     }
   }
 
-  return (
-    <CardContainer>
-      <button onClick={handleClick}>
-        {isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-      </button>
-    </CardContainer>
-  )
+  return <MdFavoriteBorder onClick={() => handleClick()} />
 }
 function Cards({ vehicle, id }) {
   const { mutate } = useSWRConfig()
@@ -129,7 +125,7 @@ function Cards({ vehicle, id }) {
               <TiDeleteOutline onClick={() => handleDelete(id.id)} />
             </DivMenu>
             <DivMenu>
-              <MdFavoriteBorder onClick={() => HandleFavorite()} />
+              <MdFavoriteBorder onClick={() => HandleFavorite(vehicle)} />
             </DivMenu>
           </DivContainer>
         </ContainerMenu>
