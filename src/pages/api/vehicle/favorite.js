@@ -6,8 +6,8 @@ import { favoriteVehicleSchema } from '../../../../modules/vehicle/vehicle.schem
 const favorite = createHandler()
 favorite.patch(validate(favoriteVehicleSchema), async (req, res) => {
   try {
-    const refreshVehicle = await favoriteVehicle(req.body.id)
-    if (refreshVehicle) return res.status(200).send({ ok: true })
+    const isFavoriteVehicle = await favoriteVehicle(req.body.id)
+    if (isFavoriteVehicle) return res.status(200).send({ ok: true })
     return res.status(400).send('Vehicle not found')
   } catch (err) {
     return res.status(500).send(err.message)

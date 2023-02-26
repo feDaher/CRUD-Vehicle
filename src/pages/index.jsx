@@ -61,7 +61,6 @@ function HomePage() {
           <Button>ADICIONAR</Button>
         </Link>
       </PageContainer>
-      <div>Favoritos:</div>
       <StyledDiv />
       <H1 />
       <StyledDiv>

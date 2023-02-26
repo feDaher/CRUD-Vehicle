@@ -22,6 +22,7 @@ const CardContainer = styled.div`
 const ContainerMenu = styled.div`
   float: right;
 `
+
 const transformColor = (color) => {
   const normalizedColor = color.toLowerCase().replace(/[\s-]/g, '')
   const colors = {
@@ -101,6 +102,7 @@ function Cards({ vehicle, id }) {
             id
           }
         )
+        console.log(response)
         if (response.status === 200)
           mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/vehicle/favorite`)
       }
@@ -110,7 +112,10 @@ function Cards({ vehicle, id }) {
   }
   return (
     <>
-      <CardContainer color={transformColor(vehicle.color.toLowerCase())}>
+      <CardContainer
+        className={isFavorite ? 'favorite' : ''}
+        color={transformColor(vehicle.color.toLowerCase())}
+      >
         <ContainerMenu>
           <DivContainer>
             <DivMenu>
@@ -141,6 +146,14 @@ function Cards({ vehicle, id }) {
         <p>Preço: {vehicle.price}</p>
         <p>Descrição: {vehicle.descrition}</p>
       </CardContainer>
+      <style>
+        {`
+          .favorite {
+            background-color: #ffebee;
+            border: 2px solid red;
+          }
+        `}
+      </style>
     </>
   )
 }
